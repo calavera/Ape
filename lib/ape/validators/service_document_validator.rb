@@ -6,7 +6,7 @@ module Ape
     
     def validate(opts = {})
       init_service_document(opts[:uri])
-      init_service_collections(opts[:uri])
+      init_service_collections(opts[:uri]) if @service_document
     end
     
     def init_service_document(uri)

@@ -8,8 +8,7 @@ $:.unshift File.dirname(__FILE__) + '/lib'
 require 'ape'
 
 ape_dependencies = {
-  :rake => '>= 0.8',
-  :mongrel => '>= 1.1.3',
+  :sinatra => '>= 0.9.4',
   :erubis => '>= 2.5.0',
   :mocha => '>= 0.9.0'
 }

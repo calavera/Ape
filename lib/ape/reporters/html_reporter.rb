@@ -4,7 +4,7 @@ module Ape
     
     def static_dir      
       dir = (server != true)?File.expand_path(File.dirname(__FILE__) + '/../../..') : ''
-      dir += "/web"
+      dir += options[:static_path] || "/web"
       dir
     end
     

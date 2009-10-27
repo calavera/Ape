@@ -4,8 +4,8 @@ module Ape
     require File.dirname(__FILE__) + '/util.rb'
     include Ape::Util
     
-    attr_accessor :header, :footer, :debug, :dialogs, :diarefs, :dianum, :server
-    
+    attr_accessor :header, :footer, :debug, :dialogs, :diarefs, :dianum, :server, :options
+
     def steps
       @steps ||= []
     end
@@ -13,8 +13,9 @@ module Ape
     def self.instance(key, opts = {})
       reporter = resolve_plugin(key, 'reporters', 'reporter')
       raise StandardError, "Unknown reporter: #{key}, outputs supported: #{supported_outputs}" unless reporter
-      reporter.debug = opts[:debug] || false
-      reporter.server = opts[:server] || false
+      reporter.debug = opts.delete(:debug) || false
+      reporter.server = opts.delete(:server) || false
+      reporter.options = opts
       reporter.dialogs = {}
       reporter.diarefs = {}
       reporter.dianum = 1
