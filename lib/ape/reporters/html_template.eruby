@@ -1,0 +1,62 @@
+<html>
+    <head>
+    <title>Atom Protocol Exerciser Report</title>
+    <link rel="stylesheet" type="text/css" href="<%= stylesheet %>" />
+    </head>
+    <body>
+    <h2>The Ape says:</h2>
+    <% if header %>
+        <p><%= header %></p>
+        <p>Summary: <%= errors.length == 1?"1 error":"#{errors.length} errors"%>, 
+            <%= warnings.length == 1?"1 warning":"#{warnings.length} warnings"%>
+        </p>
+    <% end %>
+    <ol id="steps">
+    <% steps.each do |step| %>
+      <% if step.kind_of?(Array) %>
+        <li>
+          <p><%= mark(:info) %> <%= step[0] %></p>
+          <ul>
+            <% step[1..-1].each do |li| %>
+                <%= report_li(li[:message]) %>
+            <% end %>            
+          </ul>
+        </li>
+      <% else %>
+        <% if step[:severity] == :debug %>
+          <% @dialog = step[:message] %>
+        <% else %>
+          <%= report_li(step[:message], @dialog, step[:severity])%>
+          <% @dialog = nil %>
+        <% end %>
+      <% end %>
+    <% end %>
+    </ol>
+    
+    <% if footer %>
+      <p><%= footer %></p>
+    <% end %>
+    
+    <% unless dialogs.empty? %>
+      <h2>Recorded client/server dialogs</h2>
+      <% diarefs.each do |k, v| %>
+        <% @dialog = @dialogs[k] %>
+        <h3 id="<%="dia-#{v}"%>"><%= k %></h3>
+        <div class="dialog">
+          <div class="dialab">
+            To server:
+            <% @dialog.grep(/^>/).each do |crumb| %>
+                <%= show_message(crumb, :to) %>
+            <% end %>            
+          </div>
+          <div class="dialab">
+            From server:
+            <% @dialog.grep(/^</).each do |crumb| %>
+                <%= show_message(crumb, :from) %>
+            <% end %>            
+          </div>
+        </div>
+      <% end %>
+    <% end %>
+    </body>
+</html>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <id><%= id %></id>
+    <author><name>The ape</name></author>
+    <title>Atom Protocol Exerciser Report</title>
+    <updated><%= now %></updated>    
+    <subtitle><%= errors.length == 1?"1 error":"#{errors.length} errors"%>, <%= warnings.length == 1?"1 warning":"#{warnings.length} warnings"%></subtitle>    
+    <% steps.each do |step| %>
+        <% if step.kind_of?(Array) %>
+            <entry>
+                <id><%= id %></id>
+                <title type="html"><%= "INFO: #{step[0]}"%></title>
+                <updated><%= now %></updated>
+                <category term="info"/>
+                <content type="xhtml">
+                    <% step[1..-1].each do |li| %>
+                    <%= content(li[:message]) %>
+                    <% end %>
+                </content>
+            </entry>            
+        <% else %>
+            <% if step[:severity] == :debug %>
+              <% @dialog = step[:message] %>
+            <% else %>
+                <entry>
+                    <id><%= id %></id>
+                    <title type="html"><%= step[:severity].to_s.upcase%>: <%= step[:message] %></title>
+                    <updated><%= now %></updated>
+                    <category term="<%= step[:severity].to_s %>"/>
+                    <content type="xhtml">
+                    <%= content(step[:message], @dialog) %>
+                    </content>
+                </entry>
+                <% @dialog = nil %>
+            <% end %>            
+        <% end %>
+    <% end %>
+</feed>

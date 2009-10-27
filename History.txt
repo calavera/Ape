@@ -1,0 +1,24 @@
+=== 1.6.0 / 2009-10-27
+
+* Moved repository to http://github.com/calavera/Ape
+* Deploying to gemcutter
+
+=== 1.0.0 / 2008-02-22
+
+* 2 Major enhancement:
+  
+  * The ape released as ruby gem
+  * Runnable as web app with mongrel, (ape_server)
+
+=== 1.5.0 / 2008-07-01
+
+* 4 Major enhancement:
+
+  * Validators refactor
+  * Added Atom reporter
+  * Added custom validators and custom reporters feature
+  * Added rake tasks in order to invoke the ape (rake ape:go:text, rake ape:go:html, rake:go:atom)
+
+=== 1.5.1 / 2008-07-04
+
+  * Critical server bug fixed
