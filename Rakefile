@@ -7,9 +7,16 @@ require 'rake/rdoctask'
 $:.unshift File.dirname(__FILE__) + '/lib'
 require 'ape'
 
-def spec
-  spec ||= Gem::Specification.new do |s|
-    s.platform = Gem::Platform::RUBY
+ape_dependencies = {
+  :rake => '>= 0.8',
+  :mongrel => '>= 1.1.3',
+  :erubis => '>= 2.5.0',
+  :mocha => '>= 0.9.0'
+}
+
+begin
+  require 'jeweler'
+  Jeweler::Tasks.new do |s|
     s.name = 'ape'
     s.version = Ape::VERSION::STRING
     s.authors = ['Tim Bray', 'David Calavera']
@@ -27,12 +34,14 @@ def spec
 
     s.rubyforge_project = 'ape'
 
-    s.add_dependency 'rake', '>= 0.8'
-    s.add_dependency 'mongrel', '>= 1.1.3'
-    s.add_dependency 'erubis', '>= 2.5.0'
-    s.add_dependency 'rubyforge', '>= 0.4'
-    s.add_dependency 'mocha', '>= 0.9.0'
+    ape_dependencies.each do |name, version|
+      s.add_dependency name.to_s, version
+    end
   end
+
+  Jeweler::GemcutterTasks.new
+rescue LoadError
+  puts "Jeweler (or a dependency) not available. Install it with: sudo gem install jeweler"
 end
 
 def install_gem(*args)
@@ -44,9 +53,8 @@ end
 desc 'Install the necessary dependencies'
 task :setup do
   installed = Gem::SourceIndex.from_installed_gems  
-  dependencies = spec.dependencies
-  dependencies.select { |dep|
-    installed.find_name(dep.name, dep.version_requirements).empty? }.each do |dep|
+  ape_dependencies.select { |name, version|
+    installed.find_name(name.to_s, version).empty? }.each do |dep|
       puts "Installing #{dep} ..."
       install_gem dep.name, "-v '#{dep.version_requirements.to_s}'"
     end
