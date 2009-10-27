@@ -1,3 +1,7 @@
+=== 1.7.0 / 2009-10-27
+
+* Rackable application, now ape_server runs on Sinatra
+
 === 1.6.0 / 2009-10-27
 
 * Moved repository to http://github.com/calavera/Ape
