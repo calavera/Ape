@@ -10,7 +10,6 @@ require 'ape'
 ape_dependencies = {
   :sinatra => '>= 0.9.4',
   :erubis => '>= 2.5.0',
-  :mocha => '>= 0.9.0'
 }
 
 begin
@@ -36,6 +35,7 @@ begin
     ape_dependencies.each do |name, version|
       s.add_dependency name.to_s, version
     end
+    s.add_development_dependency :mocha, '>= 0.9.0'
   end
 
   Jeweler::GemcutterTasks.new

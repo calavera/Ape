@@ -2,12 +2,11 @@
 #   Copyright (c) 2006 Sun Microsystems, Inc. All rights reserved
 #   Use is subject to license terms - see file "LICENSE"
 $:.unshift File.dirname(__FILE__) + '/../lib'
-$:.unshift File.dirname(__FILE__) + '/../sinatra'
 
 require 'rubygems'
 require 'optparse'
 
-require 'atom_exerciser'
+require File.dirname(__FILE__) + '/../sinatra/atom_exerciser'
 
 OPTIONS = {
   :host => '0.0.0.0',
